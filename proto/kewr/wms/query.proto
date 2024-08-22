@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package kewr.wms;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "kewr/wms/params.proto";
+import "kewr/wms/warehouse.proto";
+
+option go_package = "kewr/x/wms/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  
+  // Parameters queries the parameters of the module.
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/kewr/wms/params";
+  
+  }
+  
+  // Queries a list of Warehouse items.
+  rpc Warehouse    (QueryGetWarehouseRequest) returns (QueryGetWarehouseResponse) {
+    option (google.api.http).get = "/kewr/wms/warehouse/{id}";
+  
+  }
+  rpc WarehouseAll (QueryAllWarehouseRequest) returns (QueryAllWarehouseResponse) {
+    option (google.api.http).get = "/kewr/wms/warehouse";
+  
+  }
+}
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  
+  // params holds all the parameters of this module.
+  Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
+}
+
+message QueryGetWarehouseRequest {
+  uint64 id = 1;
+}
+
+message QueryGetWarehouseResponse {
+  Warehouse Warehouse = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllWarehouseRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllWarehouseResponse {
+  repeated Warehouse                              Warehouse  = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+

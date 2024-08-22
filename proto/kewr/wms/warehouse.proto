@@ -1,0 +1,12 @@
+syntax = "proto3";
+package kewr.wms;
+
+option go_package = "kewr/x/wms/types";
+
+message Warehouse {
+  uint64 id = 1;
+  string name = 2; 
+  string location = 3; 
+  uint64 capacity = 4; 
+  string creator = 5;
+}

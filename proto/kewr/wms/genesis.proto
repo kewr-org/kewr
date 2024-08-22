@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package kewr.wms;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "kewr/wms/params.proto";
+import "kewr/wms/warehouse.proto";
+
+option go_package = "kewr/x/wms/types";
+
+// GenesisState defines the wms module's genesis state.
+message GenesisState {
+  
+  // params defines all the parameters of the module.
+           Params    params         = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
+  repeated Warehouse warehouseList  = 2 [(gogoproto.nullable) = false] ;
+           uint64    warehouseCount = 3;
+}
+
