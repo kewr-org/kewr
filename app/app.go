@@ -82,7 +82,7 @@ import (
 )
 
 const (
-	AccountAddressPrefix = "cosmos"
+	AccountAddressPrefix = "kewr"
 	Name                 = "kewr"
 )
 
@@ -149,12 +149,19 @@ type App struct {
 }
 
 func init() {
-	var err error
-	clienthelpers.EnvPrefix = Name
-	DefaultNodeHome, err = clienthelpers.GetNodeHomeDirectory("." + Name)
-	if err != nil {
-		panic(err)
-	}
+    var err error
+
+    // Set Bech32 prefixes
+    sdk.GetConfig().SetBech32PrefixForAccount("kewr", "kewrpub")
+    sdk.GetConfig().SetBech32PrefixForValidator("kewrvaloper", "kewrvaloperpub")
+    sdk.GetConfig().SetBech32PrefixForConsensusNode("kewrvalcons", "kewrvalconspub")
+
+    // Set environment prefix and default node home
+    clienthelpers.EnvPrefix = Name
+    DefaultNodeHome, err = clienthelpers.GetNodeHomeDirectory("." + Name)
+    if err != nil {
+        panic(err)
+    }
 }
 
 // getGovProposalHandlers return the chain proposal handlers.
